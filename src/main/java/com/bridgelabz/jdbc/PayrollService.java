@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class PayrollService {
  
-	Connection con = null;
+	public static Connection con = null;
 
 	public static void main(String[] args) throws SQLException {
 		String jdbcURL = "jdbc:mysql://localhost:3306/payroll_service?useSSL=false";
@@ -31,8 +31,8 @@ public class PayrollService {
 
 		try {
 			System.out.println("Connecting to database:" + jdbcURL);
-			pr.con = DriverManager.getConnection(jdbcURL, userName, password);
-			System.out.println("Connection successfull! " + pr.con);
+			PayrollService.con = DriverManager.getConnection(jdbcURL, userName, password);
+			System.out.println("Connection successfull! " + PayrollService.con);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -42,57 +42,30 @@ public class PayrollService {
 
 	private void Operate() throws SQLException {
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Enter 1 to continue");
 		int exit = 1;
-
-		while (exit == 1) {
+		PayrollOperation payroll = new PayrollOperation();
+		do {
+			System.out.println("Database operation \n1.display\n2.insert\n3.update");
 			int input = sc.nextInt();
 			switch (input) {
 			case 1:
-				display();
+				payroll.display();
 				break;
 			case 2:
-				update();
+				payroll.input();
 				break;
+			case 3:
+				payroll.update();
+				break;
+			default:
+				System.out.println("Wrong input");
 			}
-		}
+			System.out.println("Enter 1 to continue");
+			exit = sc.nextInt();
 
-	}
+		} while (exit == 1);
+		sc.close();
 
-	private void update() throws SQLException {
-		String updateQuery = "update employee set salary=20000 where emp_id='emp1'";
-
-		Statement stmt = null;
-		int res = 0;
-		try {
-			stmt = con.createStatement();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		res = stmt.executeUpdate(updateQuery);
-		if (res > 0) {
-			System.out.println("Data got inseted");
-		}
-
-	}
-
-	private void display() throws SQLException {
-		String query = "Select * from employee;";
-		Statement stmt = null;
-		ResultSet res = null;
-		try {
-			stmt = con.createStatement();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		res = stmt.executeQuery(query);
-
-		while (res.next()) {
-			System.out.println(res.getString(1) + " " + res.getString(2) + " " + res.getString(3) + " "
-					+ res.getString(4) + " " + res.getString(5)
-					);
-		}
 	}
 
 	private void listDriver() {
@@ -101,7 +74,5 @@ public class PayrollService {
 			Driver driverClass = driverList.nextElement();
 			System.out.println(" " + driverClass.getClass().getName());
 		}
-
 	}
-
 }
