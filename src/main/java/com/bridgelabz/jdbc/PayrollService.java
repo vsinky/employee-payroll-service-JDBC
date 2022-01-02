@@ -45,7 +45,7 @@ public class PayrollService {
 		int exit = 1;
 		PayrollOperation payroll = new PayrollOperation();
 		do {
-			System.out.println("Database operation \n1.display\n2.insert\n3.update\n4.search\n5.salary range");
+			System.out.println("Database operation \n1.display\n2.insert\n3.update\n4.search\n5.salary range\n6.total salary\n7.group by gender");
 			int input = sc.nextInt();
 			switch (input) {
 			case 1:
@@ -62,6 +62,12 @@ public class PayrollService {
 				break;
 			case 5:
 				payroll.searchRange();
+				break;
+			case 6:
+				payroll.totalSalary();
+				break;
+			case 7:
+				payroll.groupBy();
 				break;
 			default:
 				System.out.println("Wrong input");
