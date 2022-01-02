@@ -45,7 +45,7 @@ public class PayrollService {
 		int exit = 1;
 		PayrollOperation payroll = new PayrollOperation();
 		do {
-			System.out.println("Database operation \n1.display\n2.insert\n3.update");
+			System.out.println("Database operation \n1.display\n2.insert\n3.update\n4.search\n5.salary range");
 			int input = sc.nextInt();
 			switch (input) {
 			case 1:
@@ -56,6 +56,12 @@ public class PayrollService {
 				break;
 			case 3:
 				payroll.update();
+				break;
+			case 4:
+				payroll.search();
+				break;
+			case 5:
+				payroll.searchRange();
 				break;
 			default:
 				System.out.println("Wrong input");
